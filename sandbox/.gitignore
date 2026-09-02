@@ -1,0 +1,7 @@
+# Ignorar todo el contenido efímero y prototipos dentro de sandbox
+*
+
+# Preservar la documentación e infraestructura mínima
+!.gitignore
+!README.md
+!sandbox_guide.md

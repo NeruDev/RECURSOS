@@ -1,0 +1,161 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "schemas/manifest.schema.json",
+  "title": "Repository Manifest and Modular Composition Schema",
+  "description": "Esquema formal para manifiestos de composición modular, perfiles arquitectónicos y configuración de herramientas didácticas.",
+  "type": "object",
+  "required": ["id", "version", "schema_version"],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "URI del esquema de validación JSON"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^([a-z0-9_]{3,64}|[0-9]{2}_[a-z0-9_]{3,60})$",
+      "description": "Identificador único del manifiesto o perfil arquitectónico"
+    },
+    "name": {
+      "type": "string",
+      "pattern": "^[a-z0-9_]{3,64}$",
+      "description": "Nombre en snake_case del manifiesto o perfil"
+    },
+    "title": {
+      "type": "string",
+      "description": "Título descriptivo del repositorio o perfil"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "description": "Versión semántica SemVer 2.0.0"
+    },
+    "schema_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "description": "Versión del esquema de manifiesto"
+    },
+    "description": {
+      "type": "string",
+      "description": "Descripción del propósito del manifiesto"
+    },
+    "owner": {
+      "type": "string",
+      "description": "Equipo o rol responsable"
+    },
+    "created_at": {
+      "type": "string",
+      "description": "Marca temporal de creación (ISO 8601 UTC)"
+    },
+    "updated_at": {
+      "type": "string",
+      "description": "Marca temporal de actualización (ISO 8601 UTC)"
+    },
+    "materias": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["Circuitos", "Electromagnetismo", "Telecomunicaciones", "VHDL"]
+      },
+      "description": "Materias académicas activas en el repositorio"
+    },
+    "compiladores": {
+      "type": "object",
+      "properties": {
+        "typst": {
+          "type": "object",
+          "properties": {
+            "version": { "type": "string" },
+            "cli_command": { "type": "string" }
+          }
+        },
+        "quarto": {
+          "type": "object",
+          "properties": {
+            "version": { "type": "string" },
+            "cli_command": { "type": "string" },
+            "jupyter_kernel": { "type": "string" }
+          }
+        },
+        "pdflatex": {
+          "type": "object",
+          "properties": {
+            "version": { "type": "string" },
+            "cli_command": { "type": "string" }
+          }
+        }
+      },
+      "description": "Configuración de los compiladores de salida a PDF"
+    },
+    "core_files": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Lista de archivos centrales y especificaciones obligatorias"
+    },
+    "modules": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/module_definition"
+      },
+      "description": "Catálogo de módulos y paquetes didácticos disponibles"
+    },
+    "profiles_definition": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/profile_composition"
+      },
+      "description": "Perfiles predefinidos de composición"
+    }
+  },
+  "$defs": {
+    "module_definition": {
+      "type": "object",
+      "required": ["id", "name"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Identificador del módulo"
+        },
+        "name": {
+          "type": "string",
+          "description": "Nombre del módulo"
+        },
+        "description": {
+          "type": "string",
+          "description": "Descripción funcional del módulo"
+        },
+        "target_dir": {
+          "type": "string",
+          "description": "Ruta relativa del directorio en src/"
+        },
+        "dependencies": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Módulos internos o librerías requeridas"
+        },
+        "validators": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Validadores asociados a este módulo"
+        }
+      },
+      "additionalProperties": true
+    },
+    "profile_composition": {
+      "type": "object",
+      "required": ["id", "name", "modules"],
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "modules": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}

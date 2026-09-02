@@ -1,0 +1,191 @@
+# =============================================================================
+# EXCLUSIONES UNIVERSALES DE GIT (.gitignore)
+# Sistema de Generación de Recursos Didácticos Multidisciplinares
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# 1. Secretos, Credenciales y Variables de Entorno (MUST_NOT commitear)
+# -----------------------------------------------------------------------------
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.cert
+*.p12
+*.pfx
+secrets/
+credentials.json
+
+# -----------------------------------------------------------------------------
+# 2. Entornos Virtuales y Gestores de Paquetes
+# -----------------------------------------------------------------------------
+.venv/
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+node_modules/
+vendor/
+.pnp/
+.pnp.js
+
+# -----------------------------------------------------------------------------
+# 3. Bytecode y Compilación de Python
+# -----------------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.pyd
+*.dll
+*.dylib
+*.class
+
+# -----------------------------------------------------------------------------
+# 4. Testing, Cobertura, Linters y Cachés de Python
+# -----------------------------------------------------------------------------
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+.hypothesis/
+.tox/
+.nox/
+.cache/
+.pylint.d/
+.dmypy.json
+dmypy.json
+.pyre/
+.pytype/
+nosetests.xml
+coverage.xml
+
+# -----------------------------------------------------------------------------
+# 5. Jupyter Notebooks y Checkpoints
+# -----------------------------------------------------------------------------
+.ipynb_checkpoints/
+*-checkpoint.ipynb
+.jupyter/
+
+# -----------------------------------------------------------------------------
+# 6. Motores Didácticos: Quarto, Typst y Renderizadores
+# -----------------------------------------------------------------------------
+.quarto/
+*_files/
+*_cache/
+.typst/
+.typst-cache/
+
+# -----------------------------------------------------------------------------
+# 7. Compilación LaTeX y Archivos Auxiliares (MiKTeX / TeX Live)
+# -----------------------------------------------------------------------------
+*.aux
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.synctex(busy)
+*.toc
+*.lot
+*.lof
+*.bbl
+*.blg
+*.out
+*.nav
+*.snm
+*.vrb
+*.idx
+*.ind
+*.ilg
+*.glo
+*.gls
+*.glg
+*.xdv
+*.dvi
+*.ist
+*.run.xml
+*-blx.bib
+
+# -----------------------------------------------------------------------------
+# 8. Empaquetado, Construcción y Distribución
+# -----------------------------------------------------------------------------
+build/
+dist/
+target/
+*.egg-info/
+.eggs/
+develop-eggs/
+downloads/
+eggs/
+parts/
+var/
+sdist/
+wheels/
+pip-wheel-metadata/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# -----------------------------------------------------------------------------
+# 9. IDEs, Editores y Configuración Local
+# -----------------------------------------------------------------------------
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+.history/
+*.sublime-project
+*.sublime-workspace
+*.swp
+*.swo
+*~
+*.bak
+
+# -----------------------------------------------------------------------------
+# 10. Logs y Telemetría de Procesos
+# -----------------------------------------------------------------------------
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.pid
+*.seed
+*.pid.lock
+
+# -----------------------------------------------------------------------------
+# 11. Archivos Temporales y Cachés de Sistema Operativo
+# -----------------------------------------------------------------------------
+# Windows
+Thumbs.db
+ehthumbs.db
+[Dd]esktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msm
+*.msp
+
+# macOS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+
+# -----------------------------------------------------------------------------
+# 12. Salida de Compilación de Recursos Didácticos
+# -----------------------------------------------------------------------------
+output/*
+!output/.gitkeep
+
+# -----------------------------------------------------------------------------
+# 13. Laboratorio y Prototipado Aislado (Sandbox)
+# -----------------------------------------------------------------------------
+sandbox/*
+!sandbox/README.md
+!sandbox/.gitignore
+!sandbox/sandbox_guide.md
