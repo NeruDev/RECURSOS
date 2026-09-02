@@ -3,14 +3,14 @@ id: 05_memory
 name: memory
 title: "Memoria Semántica y Lecciones del Sistema Didáctico"
 file_path: state/MEMORY.md
-version: 1.0.0
+version: 1.1.0
 category: memory
-tags: [memory, state, python314, quarto, typst, latex, schemdraw, gotchas]
+tags: [memory, state, python314, quarto, typst, latex, schemdraw, gotchas, vhdl, git-lfs]
 description: "Memoria semántica permanente: lecciones aprendidas, compatibilidad de librerías y decisiones de diseño técnico."
 owner: AI Engineering & Architecture Team
 status: active
 created_at: 2026-09-01T21:40:00Z
-updated_at: 2026-09-01T22:45:00Z
+updated_at: 2026-09-02T00:15:00Z
 dependencies: [00_agents_contract, 01_readme, 02_architecture, 03_glossary, 04_buenas_practicas]
 schema_version: 1.0.0
 ---
@@ -32,3 +32,7 @@ Memoria a largo plazo del repositorio para registrar reglas aprendidas, compatib
 - **2026-09-01 21:55 - Modularidad por Materia Escolar:**
   - Cada materia (`src/Circuitos/`, `src/Electromagnetismo/`, `src/Telecomunicaciones/`, `src/VHDL/`) es un submódulo independiente.
   - La salida gráfica (diagramas de circuitos, campos, espectros) debe emitirse siempre en formato vectorial (`.svg` / `.pdf`) hacia `output/`.
+- **2026-09-02 00:10 - Estilizado Vectorial Typst y Gestión Git LFS:**
+  - Typst 0.15.1 permite colorear subexpresiones matemáticas mediante reglas `show math.equation` con expresiones regulares (`show regex("[01]"): ...`), aplicando estilos selectivos a variables, números y operadores lógicos.
+  - La gestión de imágenes rasterizadas (`.png`) y documentos (`.pdf`) en `output/` se centraliza mediante `.gitattributes` con filtros Git LFS (`filter=lfs diff=lfs merge=lfs -text`), mientras que las imágenes vectoriales `.svg` permanecen como texto plano XML normalizado con finales de línea `LF`.
+  - En diseño lógico y VHDL, el Teorema de Expansión de Shannon provee el vínculo directo entre el álgebra booleana y la arquitectura de hardware (multiplexores 2:1 y Look-Up Tables de FPGAs).

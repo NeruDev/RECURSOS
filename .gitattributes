@@ -1,0 +1,69 @@
+# =============================================================================
+# CONFIGURACIÓN DE GIT ATTRIBUTES Y GIT LFS (.gitattributes)
+# Repositorio de Recursos Didácticos Multidisciplinares
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# 1. Normalización Universal de Finos de Línea (LF / UTF-8 sin BOM)
+# -----------------------------------------------------------------------------
+* text=auto eol=lf
+*.md text eol=lf
+*.py text eol=lf
+*.typ text eol=lf
+*.qmd text eol=lf
+*.ipynb text eol=lf
+*.tex text eol=lf
+*.json text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.toml text eol=lf
+*.sh text eol=lf
+*.ps1 text eol=lf
+
+# Formato vectorial XML (Texto plano, no requiere LFS)
+*.svg text eol=lf
+output/**/*.svg text eol=lf
+output/*.svg text eol=lf
+
+# -----------------------------------------------------------------------------
+# 2. Git LFS: Imágenes Binarias en output/
+# -----------------------------------------------------------------------------
+output/**/*.png filter=lfs diff=lfs merge=lfs -text
+output/*.png filter=lfs diff=lfs merge=lfs -text
+output/**/*.jpg filter=lfs diff=lfs merge=lfs -text
+output/*.jpg filter=lfs diff=lfs merge=lfs -text
+output/**/*.jpeg filter=lfs diff=lfs merge=lfs -text
+output/*.jpeg filter=lfs diff=lfs merge=lfs -text
+output/**/*.webp filter=lfs diff=lfs merge=lfs -text
+output/*.webp filter=lfs diff=lfs merge=lfs -text
+output/**/*.gif filter=lfs diff=lfs merge=lfs -text
+output/*.gif filter=lfs diff=lfs merge=lfs -text
+output/**/*.ico filter=lfs diff=lfs merge=lfs -text
+output/*.ico filter=lfs diff=lfs merge=lfs -text
+output/**/*.bmp filter=lfs diff=lfs merge=lfs -text
+output/*.bmp filter=lfs diff=lfs merge=lfs -text
+output/**/*.tiff filter=lfs diff=lfs merge=lfs -text
+output/*.tiff filter=lfs diff=lfs merge=lfs -text
+
+# -----------------------------------------------------------------------------
+# 3. Git LFS: Documentos Compilados y Formatos Ofimáticos en output/
+# -----------------------------------------------------------------------------
+output/**/*.pdf filter=lfs diff=lfs merge=lfs -text
+output/*.pdf filter=lfs diff=lfs merge=lfs -text
+output/**/*.docx filter=lfs diff=lfs merge=lfs -text
+output/*.docx filter=lfs diff=lfs merge=lfs -text
+output/**/*.pptx filter=lfs diff=lfs merge=lfs -text
+output/*.pptx filter=lfs diff=lfs merge=lfs -text
+output/**/*.xlsx filter=lfs diff=lfs merge=lfs -text
+output/*.xlsx filter=lfs diff=lfs merge=lfs -text
+output/**/*.epub filter=lfs diff=lfs merge=lfs -text
+output/*.epub filter=lfs diff=lfs merge=lfs -text
+
+# -----------------------------------------------------------------------------
+# 4. Git LFS: Reglas Globales de Respaldo para Binarios
+# -----------------------------------------------------------------------------
+*.png filter=lfs diff=lfs merge=lfs -text
+*.jpg filter=lfs diff=lfs merge=lfs -text
+*.jpeg filter=lfs diff=lfs merge=lfs -text
+*.webp filter=lfs diff=lfs merge=lfs -text
+*.pdf filter=lfs diff=lfs merge=lfs -text

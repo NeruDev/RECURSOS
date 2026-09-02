@@ -3,14 +3,14 @@ id: 07_progress
 name: progress
 title: "Registro de Progreso y Telemetría del Sistema Didáctico"
 file_path: state/PROGRESS.md
-version: 1.0.0
+version: 1.1.0
 category: memory
-tags: [progress, state, telemetria, tareas, hitos]
+tags: [progress, state, telemetria, tareas, hitos, vhdl, typst, git-lfs]
 description: "Diario cronológico de tareas ejecutadas, estado actual de módulos y registro de telemetría agéntica."
 owner: AI Engineering & Architecture Team
 status: active
 created_at: 2026-09-01T21:40:00Z
-updated_at: 2026-09-01T22:45:00Z
+updated_at: 2026-09-02T00:15:00Z
 dependencies: [00_agents_contract, 01_readme, 02_architecture, 03_glossary, 04_buenas_practicas]
 schema_version: 1.0.0
 ---
@@ -30,6 +30,7 @@ flowchart TD
     T5 --> T6["✅ Entorno sandbox/ & Blast Radius"]
     T6 --> T7["✅ Suite tests/validate_metadata.py (Pytest 6/6)"]
     T7 --> T8["✅ Git init & docs/BUENAS_PRACTICAS.md"]
+    T8 --> T9["✅ Álgebra de Boole (LaTeX, Typst & LFS)"]
 ```
 
 ---
@@ -49,4 +50,8 @@ flowchart TD
 - **2026-09-01 22:45:00:** Inicialización del repositorio Git (`git init`), creación de la guía de buenas prácticas [`docs/BUENAS_PRACTICAS.md`](file:///G:/REPOSITORIOS%20GITHUB/RECURSOS/docs/BUENAS_PRACTICAS.md) (`04_buenas_practicas`) y sincronización secuencial de IDs (`00_` a `10_`).
 - **2026-09-01 23:18:00:** Modernización y adaptación contextual de todos los esquemas JSON en [`schemas/`](file:///G:/REPOSITORIOS%20GITHUB/RECURSOS/schemas) (`frontmatter`, `manifest`, `memory_entry`, `rules`), añadiendo categoría `syllabus`, metadatos a los 4 temarios de `src/` (`11_` a `14_`) y validación integral con `jsonschema.Draft202012Validator`.
 - **2026-09-01 23:30:00:** Incorporación en [`AGENTS.md`](file:///G:/REPOSITORIOS%20GITHUB/RECURSOS/AGENTS.md) (§7.2 y §9.8) de la regla obligatoria de actualización de estado en `state/` previa a cualquier push remoto, y consolidación atómica del commit inicial v1.0.0 en el repositorio GitHub.
-
+- **2026-09-01 23:45:00:** Creación del compendio [`src/VHDL/algebra_boole.md`](file:///G:/REPOSITORIOS%20GITHUB/RECURSOS/src/VHDL/algebra_boole.md) con formulación matemática completa en $\LaTeX$ incrustado y validación canónica de metadatos (`15_algebra_boole`).
+- **2026-09-01 23:55:00:** Configuración de [`.gitignore`](file:///G:/REPOSITORIOS%20GITHUB/RECURSOS/.gitignore) y [`.gitattributes`](file:///G:/REPOSITORIOS%20GITHUB/RECURSOS/.gitattributes) para seguimiento de imágenes generadas e integración de Git LFS para artefactos binarios (`.png`, `.pdf`) en `output/`.
+- **2026-09-02 00:05:00:** Prototipado y estilización de lámina vectorial en Typst con paleta de colores didácticos (variables en azul, números en rojo, negaciones en púrpura, operadores en verde esmeralda) y ordenamiento horizontal izquierda a derecha.
+- **2026-09-02 00:10:00:** Incorporación en [`src/VHDL/algebra_boole.md`](file:///G:/REPOSITORIOS%20GITHUB/RECURSOS/src/VHDL/algebra_boole.md) del Teorema de Expansión de Shannon (LUT/MUX), formalización del Principio de Dualidad e identidades complementarias XOR/XNOR para síntesis RTL.
+- **2026-09-02 00:15:00:** Promoción del código Typst desde el sandbox al módulo canónico [`src/VHDL/algebra_boole.typ`](file:///G:/REPOSITORIOS%20GITHUB/RECURSOS/src/VHDL/algebra_boole.typ), emisión de artefactos en `output/` y sincronización con el repositorio remoto.
