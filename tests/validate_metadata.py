@@ -40,6 +40,7 @@ class ValidationConfig:
         ".git",
         "__pycache__",
         "output",
+        "node_modules",
         ".pytest_cache",
         ".mypy_cache",
         ".ruff_cache",

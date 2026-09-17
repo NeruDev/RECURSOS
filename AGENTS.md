@@ -125,6 +125,11 @@ Para garantizar orden secuencial de lectura, indexación determinista en explora
   - `12_temario_electromagnetismo` -> [`src/Electromagnetismo/temario.md`](file:///G:/REPOSITORIOS%20GITHUB/RECURSOS/src/Electromagnetismo/temario.md)
   - `13_temario_telecomunicaciones` -> [`src/Telecomunicaciones/temario.md`](file:///G:/REPOSITORIOS%20GITHUB/RECURSOS/src/Telecomunicaciones/temario.md)
   - `14_temario_vhdl` -> [`src/VHDL/temario.md`](file:///G:/REPOSITORIOS%20GITHUB/RECURSOS/src/VHDL/temario.md)
+  - `15_algebra_boole` -> [`src/VHDL/algebra_boole.md`](file:///G:/REPOSITORIOS%20GITHUB/RECURSOS/src/VHDL/algebra_boole.md)
+  - `16_practica_1_original` -> [`src/Electromagnetismo/PRACTICA_1_ORIGINAL.md`](file:///G:/REPOSITORIOS%20GITHUB/RECURSOS/src/Electromagnetismo/PRACTICA_1_ORIGINAL.md)
+  - `17_practica_1_resumen` -> [`src/Electromagnetismo/PRACTICA_1_RESUMEN.md`](file:///G:/REPOSITORIOS%20GITHUB/RECURSOS/src/Electromagnetismo/PRACTICA_1_RESUMEN.md)
+  - `18_practica_1_cuestionario` -> [`src/Electromagnetismo/PRACTICA_1_CUESTIONARIO.md`](file:///G:/REPOSITORIOS%20GITHUB/RECURSOS/src/Electromagnetismo/PRACTICA_1_CUESTIONARIO.md)
+  - `19_practica_1_cuestionario_oficial` -> [`src/Electromagnetismo/PRACTICA_1_CUESTIONARIO_OFICIAL.md`](file:///G:/REPOSITORIOS%20GITHUB/RECURSOS/src/Electromagnetismo/PRACTICA_1_CUESTIONARIO_OFICIAL.md)
 
 *Nota: Los modelos alternativos de IDs (TypeID, UUIDv7, Namespaces) quedan documentados en `formato_minimo/docs/id_standards_guide.md` como referencia comparativa para APIs futuras.*
 

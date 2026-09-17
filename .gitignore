@@ -182,13 +182,17 @@ $RECYCLE.BIN/
 output/*
 !output/.gitkeep
 
-# Excepciones: Permitir imágenes didácticas (PNG, SVG) y documentos finales (PDF)
+# Excepciones: Permitir imágenes didácticas (PNG, SVG) y documentos finales (PDF, DOCX, HTML)
 !output/*.png
 !output/**/*.png
 !output/*.svg
 !output/**/*.svg
 !output/*.pdf
 !output/**/*.pdf
+!output/*.docx
+!output/**/*.docx
+!output/*.html
+!output/**/*.html
 
 # -----------------------------------------------------------------------------
 # 13. Laboratorio y Prototipado Aislado (Sandbox)

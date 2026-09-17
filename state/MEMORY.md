@@ -36,3 +36,12 @@ Memoria a largo plazo del repositorio para registrar reglas aprendidas, compatib
   - Typst 0.15.1 permite colorear subexpresiones matemáticas mediante reglas `show math.equation` con expresiones regulares (`show regex("[01]"): ...`), aplicando estilos selectivos a variables, números y operadores lógicos.
   - La gestión de imágenes rasterizadas (`.png`) y documentos (`.pdf`) en `output/` se centraliza mediante `.gitattributes` con filtros Git LFS (`filter=lfs diff=lfs merge=lfs -text`), mientras que las imágenes vectoriales `.svg` permanecen como texto plano XML normalizado con finales de línea `LF`.
   - En diseño lógico y VHDL, el Teorema de Expansión de Shannon provee el vínculo directo entre el álgebra booleana y la arquitectura de hardware (multiplexores 2:1 y Look-Up Tables de FPGAs).
+- **2026-09-03 23:48 - Inviabilidad de Bypass PDF para Fórmulas Matemáticas OMML:**
+  - El formato PDF aplana el árbol de sintaxis abstracta (AST) de las matemáticas a primitivas de renderizado 2D (coordenadas, glifos de fuentes y trazos vectoriales).
+  - Los motores estándar de conversión PDF a DOCX (`pdf2docx`, MS Word Reflow, Adobe Acrobat, Poppler) NO poseen reconstructores semánticos de ecuaciones: emiten `0` elementos `<m:oMath>`, omiten barras de fracción y radicales, y convierten los símbolos en texto plano Unicode plano o fragmentado.
+  - Para obtener Word nativo con OMML editable (`<m:oMathPara>`, `<m:oMath>`, `<m:f>`, `<m:rad>`), los métodos deterministas son:
+    1. `markdocx` (Python con hoja `MML2OMML.XSL` de Microsoft Office).
+    2. Bypass estructurado LaTeX: `Markdown -> LaTeX (.tex) -> Word (.docx)` vía Pandoc.
+    3. Bypass estructurado HTML+MathML: `Markdown -> HTML (MathML) -> Word (.docx)` vía Pandoc.
+    4. Saneamiento sintáctico Markdown: eliminar líneas vacías dentro de `$$`, evitar espacios interiores en `$ ... $` y desanidar `$$` de listas con sangría.
+

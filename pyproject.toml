@@ -63,10 +63,11 @@ dependencies = [
   "plotly>=5.20.0",
   "pillow>=10.0.0",
 
-  # --- Motores de Plantillas, Quarto/Jupyter Runtime y PDF ---
+  # --- Motores de Plantillas, Quarto/Jupyter Runtime, PDF y DOCX ---
   "jinja2>=3.1.0",
   "reportlab>=4.2.0",
   "pypdf>=5.0.0",
+  "markdocx>=10.0.0",
   "ipykernel>=6.29.0",
   "nbformat>=5.10.0",
 
