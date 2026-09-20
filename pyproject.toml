@@ -73,7 +73,12 @@ dependencies = [
 
   # --- Validación y Metadatos ---
   "pyyaml>=6.0",
-  "jsonschema>=4.20.0"
+  "jsonschema>=4.20.0",
+
+  # --- Ofimática: Artefactos binarios derivados (AGENTS.md §13) ---
+  # Libros de Excel (.xlsx) editables y reportes Word (.docx) de los entregables.
+  "openpyxl>=3.1.0",
+  "python-docx>=1.2.0"
 ]
 
 [project.optional-dependencies]

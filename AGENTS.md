@@ -3,14 +3,14 @@ id: 00_agents_contract
 name: agents_contract
 title: "Contrato Operativo de Agentes de IA (AGENTS.md)"
 file_path: AGENTS.md
-version: 1.0.0
+version: 1.2.0
 category: standards
-tags: [agents, operational-contract, guardrails, python, yaml, json, markdown, subagents, memory-tracking, sandbox, dod]
+tags: [agents, operational-contract, guardrails, python, yaml, json, markdown, subagents, memory-tracking, sandbox, dod, excel, xlsx, word, docx, excepciones]
 description: "Constitución operativa y contrato vinculante para agentes autónomos de IA y desarrolladores en el sistema de recursos didácticos."
 owner: AI Engineering & Architecture Team
 status: active
 created_at: 2026-08-27T21:00:00Z
-updated_at: 2026-09-01T22:12:00Z
+updated_at: 2026-09-19T21:30:00Z
 dependencies: [01_readme, 02_architecture]
 related_specs: [03_glossary, 04_buenas_practicas, 05_memory, 06_playbook, 07_progress, 08_scratchpad]
 schema_version: 1.0.0
@@ -519,6 +519,34 @@ Antes de reportar cualquier tarea como completada, el agente debe verificar:
 - [ ] **Memoria y Progreso Sincronizados:** Si procede un `git push`, se actualizaron `MEMORY.md` y `PROGRESS.md` en el commit atómico.
 - [ ] **Sin Secretos:** No se filtraron credenciales, tokens ni variables locales en los commits.
 - [ ] **Documentación Sincronizada:** Se actualizaron `README.md` o metadatos YAML si hubo cambios estructurales en la API o arquitectura.
+
+---
+
+<!-- ======================================================================= -->
+<!-- SECCIÓN 13: EXCEPCIÓN AUTORIZADA PARA ARTEFACTOS BINARIOS DERIVADOS     -->
+<!-- ======================================================================= -->
+
+## 13. Excepción Autorizada para Artefactos Binarios Derivados (`.xlsx` y `.docx`)
+
+**Vigencia:** temporal, mientras se requiera manipular los entregables de forma interactiva en Microsoft Excel (`.xlsx`) o distribuir informes en Microsoft Word (`.docx`).
+**Alcance:** copias derivadas de los entregables del repositorio, empezando por el libro de Excel de [`src/Telecomunicaciones/linea_del_tiempo_tema_1.csv`](file:///G:/REPOSITORIOS%20GITHUB/RECURSOS/src/Telecomunicaciones/linea_del_tiempo_tema_1.csv) y por el informe [`src/Telecomunicaciones/reporte_linea_del_tiempo_tema_1.docx`](file:///G:/REPOSITORIOS%20GITHUB/RECURSOS/src/Telecomunicaciones/reporte_linea_del_tiempo_tema_1.docx).
+
+| Regla del contrato | Estado en los artefactos derivados | Justificación |
+|:---|:---|:---|
+| §4 Codificación UTF-8 sin BOM y finales de línea `LF` | **Excepción autorizada** | Los formatos `.xlsx` y `.docx` son contenedores binarios comprimidos (ZIP/OPC): su codificación y sus finales de línea internos no se rigen por las reglas de los archivos de texto. |
+| §4 Nomenclatura `snake_case` | **Se mantiene** | Cada artefacto conserva el nombre base de su fuente (`linea_del_tiempo_tema_1.xlsx`, `reporte_linea_del_tiempo_tema_1.docx`). |
+| §5 Estándares técnicos por lenguaje | **No aplica al binario** | Ni el `.xlsx` ni el `.docx` son código fuente; la utilidad que los produce sí cumple §5 y reside en `sandbox/` conforme a §8. |
+| §8 Scripts temporales en `sandbox/` | **Se mantiene** | Las utilidades de conversión y generación son de un solo uso y no se promueven a `PLAYBOOK.md`. |
+| §9.4 Presupuesto de modificación | **Se mantiene** | Como máximo un artefacto derivado por cada entregable convertido o documentado. |
+
+**Condiciones obligatorias de esta excepción:**
+
+1. **Fuente única de verdad:** el `.csv` canónico (UTF-8 sin BOM, finales `LF`) sigue siendo el artefacto normativo del entregable tabular, y los documentos Markdown canónicos lo siguen siendo del entregable documental; el `.xlsx` y el `.docx` son copias derivadas que no los sustituyen ni incorporan contenido nuevo.
+2. **Trazabilidad:** cada conversión o generación se ejecuta con una utilidad alojada en `sandbox/` y se registra en [`state/PROGRESS.md`](file:///G:/REPOSITORIOS%20GITHUB/RECURSOS/state/PROGRESS.md).
+3. **Ámbito restringido:** la excepción cubre exclusivamente artefactos derivados de entregables del repositorio; no habilita archivos binarios en `docs/`, `state/` ni en los archivos de infraestructura protegidos por §9.7.
+4. **Dependencias declaradas:** los paquetes necesarios para la conversión o generación (por ejemplo, `openpyxl` y `python-docx`) se declaran en `pyproject.toml`, única fuente de dependencias del proyecto.
+5. **Reversibilidad:** cuando la edición interactiva en Excel o la distribución en Word deje de ser necesaria, el artefacto derivado se elimina y la excepción pierde su objeto.
+6. **Integridad del contenido:** el libro derivado conserva la cabecera literal y el ancho de columnas del CSV, sin añadir filas, columnas ni fórmulas; el informe derivado reproduce los datos del entregable sin tablas ni contenido que no provenga de las fuentes citadas.
 
 ---
 

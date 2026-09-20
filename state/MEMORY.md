@@ -3,14 +3,14 @@ id: 05_memory
 name: memory
 title: "Memoria Semántica y Lecciones del Sistema Didáctico"
 file_path: state/MEMORY.md
-version: 1.1.0
+version: 1.5.0
 category: memory
-tags: [memory, state, python314, quarto, typst, latex, schemdraw, gotchas, vhdl, git-lfs]
+tags: [memory, state, python314, quarto, typst, latex, schemdraw, gotchas, vhdl, git-lfs, timelinejs, csv, excel, xlsx, docx, python-docx, wikimedia, imagenes]
 description: "Memoria semántica permanente: lecciones aprendidas, compatibilidad de librerías y decisiones de diseño técnico."
 owner: AI Engineering & Architecture Team
 status: active
 created_at: 2026-09-01T21:40:00Z
-updated_at: 2026-09-02T00:15:00Z
+updated_at: 2026-09-19T21:30:00Z
 dependencies: [00_agents_contract, 01_readme, 02_architecture, 03_glossary, 04_buenas_practicas]
 schema_version: 1.0.0
 ---
@@ -44,4 +44,29 @@ Memoria a largo plazo del repositorio para registrar reglas aprendidas, compatib
     2. Bypass estructurado LaTeX: `Markdown -> LaTeX (.tex) -> Word (.docx)` vía Pandoc.
     3. Bypass estructurado HTML+MathML: `Markdown -> HTML (MathML) -> Word (.docx)` vía Pandoc.
     4. Saneamiento sintáctico Markdown: eliminar líneas vacías dentro de `$$`, evitar espacios interiores en `$ ... $` y desanidar `$$` de listas con sangría.
+- **2026-09-19 16:10 - Formato CSV de TimelineJS y medios verificados de Wikimedia Commons:**
+  - La hoja de cálculo de TimelineJS (Knight Lab) exige una cabecera literal de 19 columnas: `Year`, `Month`, `Day`, `Time`, `End Year`, `End Month`, `End Day`, `End Time`, `Display Date`, `Headline`, `Text`, `Media`, `Media Credit`, `Media Caption`, `Media Thumbnail`, `Alt Text`, `Type`, `Group`, `Background`. La capitalización de `Alt Text` es significativa y el orden no debe alterarse.
+  - La columna `Type` acepta cadena vacía (evento), `title` (portada sin fecha, una sola fila) y `era` (banda del eje inferior: exige año de inicio, año de fin y titular; el resto de celdas se ignora y el color es automático, no configurable). Las eras solapadas no están bien soportadas, por lo que conviene no declarar `End Year` en los eventos cuando se usan bandas `era`.
+  - `Display Date` sobrescribe el formato de fecha, lo que permite escribir fechas en español, pero el año sigue siendo obligatorio para posicionar el hito en el eje.
+  - `csv.writer` emite finales `\r\n` por defecto: para cumplir UTF-8 sin BOM con finales `LF` (AGENTS.md §4) hay que fijar `lineterminator="\n"` y escribir el contenido a través de `io.StringIO` con `Path.write_text(..., encoding="utf-8", newline="")`.
+  - La API de Wikimedia Commons (`action=query&prop=imageinfo&iiprop=url`) devuelve la URL directa acompañada de parámetros de seguimiento `?utm_source=...` que deben recortarse antes de usarla; el filtro `iiextmetadatafilter=LicenseShortName|Artist|Credit` aporta autoría y licencia sin volcar todo el árbol de metadatos.
+  - Excel puede mostrar mojibake al abrir el CSV porque el repositorio prohíbe el BOM: para revisarlo en hoja de cálculo conviene usar Google Sheets o una importación explícita como UTF-8.
+- **2026-09-19 17:30 - Libros de Excel derivados (`.xlsx`) con `openpyxl` y excepción de formato:**
+  - El requisito de entregables editables en Excel se resuelve con un libro `.xlsx` (contenedor binario ZIP/OPC) y no relajando el CSV: la excepción autorizada en `AGENTS.md` §13 exime al binario de UTF-8 sin BOM y de los finales `LF`, mantiene el `snake_case` y obliga a que el CSV siga siendo la fuente única de verdad, con la utilidad de conversión en `sandbox/` y su dependencia declarada en `pyproject.toml`.
+  - `openpyxl` (3.1.5) no incluye `py.typed`, pero sus anotaciones se resolvieron con `mypy --strict` sin incidencias; el detalle que sí rompe el tipado estricto es reutilizar el mismo nombre de variable para la fila del CSV (`Sequence[str]`) y para el número de fila (`int`) dentro de una misma función.
+  - `Worksheet.append` acepta una lista heterogénea: hay que convertir a `int` únicamente las columnas de fecha y conservar el resto como texto para no alterar el contenido del CSV; las celdas vacías se escriben como `None`.
+  - Para que un libro sea utilizable en Excel conviene fijar `freeze_panes`, `auto_filter.ref`, `column_dimensions[letra].width`, `row_dimensions[1].height`, alineación con `wrap_text` en los campos largos y `hyperlink` en las celdas de media (el valor textual de la celda permanece intacto).
+  - La verificación cruzada más económica es releer el libro con `pandas.read_excel(..., dtype=object)` y comparar celda a celda contra el CSV, ya que `openpyxl` por sí solo no detecta divergencias de contenido.
+- **2026-09-19 18:30 - Investigación masiva de imágenes en Wikimedia Commons:**
+  - La API de Commons devuelve títulos, URL directa, dimensiones, autoría y licencia sin descargar la imagen: `generator=search` o `generator=categorymembers` combinados con `prop=imageinfo&iiprop=url|size`, y `iiextmetadatafilter=LicenseShortName|Artist` para la atribución. Un único `titles=File:A|File:B|...` resuelve hasta 50 archivos por petición y devuelve `MISSING` para los inexistentes.
+  - Commons aplica control de tasa (HTTP 429) a ráfagas de peticiones, incluidas las lanzadas desde el terminal: conviene espaciar las consultas con un agente de usuario identificativo y no verificar las URL con peticiones `HEAD` masivas, porque el CDN responde 429 aunque los archivos existan. La existencia y las dimensiones deben tomarse de la API, no del código HTTP del CDN.
+  - Búsquedas útiles (con `srnamespace=6` o `gsrnamespace=6`): nombres de modelo de dispositivo («Mobira Cityman», «Motorola mr30», «Nokia 1011»), siglas de tecnología («ISDN NTBA», «GSM base station») y emplazamientos («Bell Labs Holmdel», «NPL Teddington», «RAND Corporation»). Las categorías curadas (por ejemplo `Category:Mobira`, `Category:ISDN`) dan mejores resultados que la búsqueda libre cuando el término es ambiguo.
+  - Criterio de calidad aplicado: lado mayor superior a 1000 px; si no existe fotografía histórica en alta resolución, usar una imagen reciente de la misma tecnología y decirlo en el pie de la diapositiva. Referir siempre autoría, licencia y resolución en el documento de fuentes, porque CC BY y CC BY-SA exigen atribución.
+- **2026-09-19 21:25 - Informes Word derivados (`.docx`) con `python-docx` y excepción §13 ampliada:**
+  - `python-docx` (1.2.0, ya presente como dependencia transitiva de `markdocx`) es suficiente para informes sin ecuaciones: `add_heading` para la jerarquía, `add_paragraph(style="List Bullet")` para viñetas, `run.add_break()` para la segunda línea de una viñeta y sangría francesa con `left_indent` de 1,27 cm y `first_line_indent` de -1,27 cm. Cuando sí se requieren fórmulas, la vía OMML sigue siendo `markdocx`. La excepción de `AGENTS.md` §13 cubre ya los dos contenedores binarios derivados (`.xlsx` y `.docx`).
+  - `Document.paragraphs` conserva el orden de lectura y permite segmentar por estilo `Heading 1`: contar viñetas por sección es la comprobación más económica de que la lista tiene los 30 hitos y el glosario las 37 siglas, sin abrir el archivo en Word.
+  - Los campos de las tablas Markdown llegan con énfasis literal (`**negrita**`, `*cursiva*`): si se copian tal cual, los asteriscos aparecen en el documento. Hay que tokenizar y crear runs con `bold`/`italic`. Las citas se escriben además entre comillas rectas y terminadas en punto dentro de las tablas (por ejemplo `"GSM fue fijado en 1982".`), por lo que conviene limpiar comillas y punto final antes de envolverlas en «» para no anidar signos.
+  - El emoji de verificación (✅ / 📚) se conserva en las notas explicativas, pero conviene traducirlo a rótulos textuales («confirmada con contraste externo», «pendiente de cotejo con el ejemplar impreso») en el cuerpo del informe, porque el eje de verificación de las tablas no viaja en el CSV.
+  - Verificación sin Microsoft Office: `pandoc -f docx -t plain --wrap=none` vuelca el texto para revisión manual, y un modo `--check` que reabra el archivo con `python-docx` puede exigir 0 tablas, las secciones esperadas y la presencia de titulares, enlaces y referencias.
+  - **Sincronía de derivados:** un artefacto derivado puede quedar obsoleto aunque su marca de modificación sea posterior a la del canónico (el `.xlsx` de la línea del tiempo conservaba una portada antigua tras la última edición del CSV). Solo el cotejo de contenido celda a celda lo revela, y la reparación es regenerar el derivado desde el CSV en lugar de tocar el canónico.
 

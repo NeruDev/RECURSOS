@@ -3,16 +3,17 @@ id: 21_linea_del_tiempo
 name: linea_del_tiempo
 title: "Línea del Tiempo - Era III (Digitalización y Telefonía Móvil Inicial)"
 file_path: src/Telecomunicaciones/LINEA_DEL_TIEMPO.md
-version: 1.0.0
+version: 1.3.0
 category: guides
 domain: Telecomunicaciones
-tags: [telecomunicaciones, era-iii, linea-del-tiempo, cronologia, x25, isdn, rdsi, gsm, cdma, is-95, glosario, tarea-1]
-description: "Línea del tiempo de la Era III (X.25, RDSI/ISDN y telefonía celular 1G/2G) con hitos fechados contrastados con fuentes externas y glosario de siglas."
+tags: [telecomunicaciones, era-iii, linea-del-tiempo, cronologia, x25, isdn, rdsi, gsm, cdma, is-95, glosario, tarea-1, timelinejs, csv, xlsx, docx, reporte, imagenes]
+description: "Línea del tiempo de la Era III (X.25, RDSI/ISDN y telefonía celular 1G/2G) con hitos fechados contrastados con fuentes externas, glosario de siglas y entregables CSV y XLSX ilustrados con imágenes en alta definición."
 owner: AI Engineering & Architecture Team
 status: active
 created_at: 2026-09-16T20:00:00Z
-updated_at: 2026-09-16T20:00:00Z
+updated_at: 2026-09-19T21:30:00Z
 dependencies: [00_agents_contract, 13_temario_telecomunicaciones, 20_tarea_1_era_tecnologica]
+related_specs: [22_nuevas_fuentes]
 schema_version: 1.0.0
 ---
 
@@ -157,3 +158,30 @@ Wikipedia. (2026). *Total Access Communication System*. https://en.wikipedia.org
 Wikipedia. (2026). *X.25*. https://en.wikipedia.org/wiki/X.25
 
 > Estas obras se emplearon únicamente para validar y corregir fechas; los datos técnicos del entregable provienen de las tres fuentes bibliográficas de la libreta, según se documenta en `TAREA_1_ERA_TECNOLOGICA.md` (Anexo A).
+
+---
+
+## 5. Formato de distribución y artefactos derivados
+
+Además de esta versión documental, la línea del tiempo se publica como hoja de cálculo para el motor [TimelineJS](https://timeline.knightlab.com/) y como informe en Word para su distribución:
+
+```mermaid
+flowchart LR
+    SRC["LINEA_DEL_TIEMPO.md (tablas 2.1 a 3, intactas)"] --> GEN["sandbox/generar_linea_del_tiempo_csv.py"]
+    FUENTES["nuevas_fuentes.md (fechas refinadas, créditos y licencias)"] --> GEN
+    GEN --> CSV["linea_del_tiempo_tema_1.csv (19 columnas TimelineJS)"]
+    CSV --> XLSX["linea_del_tiempo_tema_1.xlsx (copia editable en Excel)"]
+    CSV --> DOCX["reporte_linea_del_tiempo_tema_1.docx (informe en Word)"]
+    FUENTES --> DOCX
+```
+
+| Artefacto | Formato | Contenido |
+|:---|:---|:---|
+| [`linea_del_tiempo_tema_1.csv`](file:///G:/REPOSITORIOS%20GITHUB/RECURSOS/src/Telecomunicaciones/linea_del_tiempo_tema_1.csv) | Hoja de cálculo de 19 columnas | Una portada (`title`), tres bandas temporales (`era`) y 30 hitos con fechas contrastadas; **los 30 hitos** incorporan una imagen de Wikimedia Commons con crédito, pie y texto alternativo, seleccionada con criterio de alta definición (catálogo en `nuevas_fuentes.md`). |
+| [`nuevas_fuentes.md`](file:///G:/REPOSITORIOS%20GITHUB/RECURSOS/src/Telecomunicaciones/nuevas_fuentes.md) (`22_nuevas_fuentes`) | Documento de fuentes | Origen de las fechas refinadas de la tabla 2.2 de este documento, precisión sobre la aprobación de X.25, créditos y licencias de las imágenes y referencias APA 7. |
+| [`linea_del_tiempo_tema_1.xlsx`](file:///G:/REPOSITORIOS%20GITHUB/RECURSOS/src/Telecomunicaciones/linea_del_tiempo_tema_1.xlsx) | Libro de Excel derivado (binario) | Copia editable del CSV para Microsoft Excel, con la cabecera literal, los anchos de columna, el panel congelado y los enlaces de media; se rige por la excepción autorizada de `AGENTS.md` §13 y **no sustituye** al CSV canónico. |
+| [`reporte_linea_del_tiempo_tema_1.docx`](file:///G:/REPOSITORIOS%20GITHUB/RECURSOS/src/Telecomunicaciones/reporte_linea_del_tiempo_tema_1.docx) | Informe en Word derivado (binario) | Versión en prosa y en listas del entregable: introducción, estudio de caso de la Era III, glosario de siglas, los 30 hitos (uno por viñeta, sin tablas), datos complementados y verificados después, y fuentes bibliográficas, de contraste y de las imágenes en APA 7; se rige por la excepción autorizada de `AGENTS.md` §13. |
+| `sandbox/generar_reporte_docx.py` | Utilidad Python de un solo uso | Compone el informe con `python-docx` a partir del CSV, de este documento y de `nuevas_fuentes.md`, y lo valida con `--check`: secciones, 30 hitos en lista, 37 siglas, 0 tablas, referencias presentes, cotejo cruzado del `.xlsx` con el CSV y ausencia de flechas de texto plano. |
+| `sandbox/generar_linea_del_tiempo_csv.py` | Utilidad Python de un solo uso | Genera el CSV y lo valida con `--check`: encabezado literal, 19 campos por fila, coherencia de fechas y tipos, crédito y texto alternativo obligatorios con media, UTF-8 sin BOM y finales de línea `LF`. |
+
+**Trazabilidad de los hitos refinados:** las tablas de las secciones 2 y 3 se conservan intactas. En el CSV, la fila «Década de 1960» de la tabla 2.1 se despliega en tres diapositivas fechadas (Baran 1960, Kleinrock 1961 y Davies 1965) y la fila «Finales de los años 70» en cuatro (Telenet 1975, DATAPAC 1976, TRANSPAC 1978 e IPSS 1978), conforme al contraste documentado en `nuevas_fuentes.md`. El informe en Word traslada cada hito a una viñeta en prosa, con la atribución de su imagen al pie del propio hito y el estado de verificación de la fecha.
