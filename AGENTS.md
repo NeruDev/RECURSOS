@@ -130,6 +130,7 @@ Para garantizar orden secuencial de lectura, indexación determinista en explora
   - `17_practica_1_resumen` -> [`src/Electromagnetismo/PRACTICA_1_RESUMEN.md`](file:///G:/REPOSITORIOS%20GITHUB/RECURSOS/src/Electromagnetismo/PRACTICA_1_RESUMEN.md)
   - `18_practica_1_cuestionario` -> [`src/Electromagnetismo/PRACTICA_1_CUESTIONARIO.md`](file:///G:/REPOSITORIOS%20GITHUB/RECURSOS/src/Electromagnetismo/PRACTICA_1_CUESTIONARIO.md)
   - `19_practica_1_cuestionario_oficial` -> [`src/Electromagnetismo/PRACTICA_1_CUESTIONARIO_OFICIAL.md`](file:///G:/REPOSITORIOS%20GITHUB/RECURSOS/src/Electromagnetismo/PRACTICA_1_CUESTIONARIO_OFICIAL.md)
+  - `23_estilos_typst` -> [`estilos_typst.md`](file:///G:/REPOSITORIOS%20GITHUB/RECURSOS/estilos_typst.md)
 
 *Nota: Los modelos alternativos de IDs (TypeID, UUIDv7, Namespaces) quedan documentados en `formato_minimo/docs/id_standards_guide.md` como referencia comparativa para APIs futuras.*
 

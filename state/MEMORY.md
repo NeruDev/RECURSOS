@@ -3,14 +3,14 @@ id: 05_memory
 name: memory
 title: "Memoria Semántica y Lecciones del Sistema Didáctico"
 file_path: state/MEMORY.md
-version: 1.5.0
+version: 1.6.0
 category: memory
-tags: [memory, state, python314, quarto, typst, latex, schemdraw, gotchas, vhdl, git-lfs, timelinejs, csv, excel, xlsx, docx, python-docx, wikimedia, imagenes]
+tags: [memory, state, python314, quarto, typst, latex, schemdraw, gotchas, vhdl, git-lfs, timelinejs, csv, excel, xlsx, docx, python-docx, wikimedia, imagenes, fsm, diagramas-vectoriales]
 description: "Memoria semántica permanente: lecciones aprendidas, compatibilidad de librerías y decisiones de diseño técnico."
 owner: AI Engineering & Architecture Team
 status: active
 created_at: 2026-09-01T21:40:00Z
-updated_at: 2026-09-19T21:30:00Z
+updated_at: 2026-10-18T13:57:00Z
 dependencies: [00_agents_contract, 01_readme, 02_architecture, 03_glossary, 04_buenas_practicas]
 schema_version: 1.0.0
 ---
@@ -69,4 +69,16 @@ Memoria a largo plazo del repositorio para registrar reglas aprendidas, compatib
   - El emoji de verificación (✅ / 📚) se conserva en las notas explicativas, pero conviene traducirlo a rótulos textuales («confirmada con contraste externo», «pendiente de cotejo con el ejemplar impreso») en el cuerpo del informe, porque el eje de verificación de las tablas no viaja en el CSV.
   - Verificación sin Microsoft Office: `pandoc -f docx -t plain --wrap=none` vuelca el texto para revisión manual, y un modo `--check` que reabra el archivo con `python-docx` puede exigir 0 tablas, las secciones esperadas y la presencia de titulares, enlaces y referencias.
   - **Sincronía de derivados:** un artefacto derivado puede quedar obsoleto aunque su marca de modificación sea posterior a la del canónico (el `.xlsx` de la línea del tiempo conservaba una portada antigua tras la última edición del CSV). Solo el cotejo de contenido celda a celda lo revela, y la reparación es regenerar el derivado desde el CSV en lugar de tocar el canónico.
+- **2026-10-18 13:25 - Diagramas vectoriales nativos en Typst 0.15.1 y hoja carta estandarizada:**
+  - `rotate()` **no** acepta un punto como `origin`, solo una alineación (`center`, `horizon`, ...): para orientar una punta de flecha conviene calcular los tres vértices del triángulo con `calc.sin`/`calc.cos` sobre `ang.rad()`, con la punta en `(0pt, 0pt)`, y colocar el polígono con `place(dx:, dy:)` en el punto final de la polilínea. Ángulos verificados: 0° derecha, 90° abajo, 180° izquierda, −90° arriba.
+  - `calc.atan2` exige **números**, no longitudes; con ángulos conocidos es más simple declararlos explícitamente en cada flecha que derivarlos de los puntos.
+  - `curve.cubic` recibe `(control-inicio, control-fin, fin)`; con controles simétricos `(-w, -h)` y `(2w, -h)` se obtiene un lazo de auto-transición cuya tangente final es vertical (punta a 90°), apoyado exactamente sobre la circunferencia.
+  - `place` requiere un padre con tamaño conocido: todo diagrama se envuelve en `block(width:, height:, inset: 0pt)` y se centra con `align(center, ...)`.
+  - Los archivos `.typ` con «tarjetas» deben declarar `breakable: false` en el `block` contenedor; de lo contrario Typst parte la tarjeta entre páginas y deja títulos huérfanos al imprimir.
+  - El código en línea (`raw` dentro de celdas) hereda una familia monoespaciada distinta según el contexto; para que sea determinista se fija `#show raw: set text(font: ("Consolas", "Courier New", ...))`. `Cascadia Code`/`Cascadia Mono`/`DejaVu Sans` no están instaladas en este equipo y emiten advertencia, pero la cadena de respaldo las cubre.
+  - **Formato estándar:** hoja **carta** (`paper: "us-letter"`, márgenes x 12 mm, top 10 mm, bottom 12 mm) para todas las láminas didácticas nuevas; la lámina panorámica de 350 mm de `algebra_boole.typ` queda como excepción documentada en `estilos_typst.md`.
+  - La verificación visual en dos pasadas (PNG a 130 ppp para maqueta y recortes a 300 ppp con `System.Drawing` para flechas y tipografía) detecta solapamientos que el compilador no reporta, por ejemplo una etiqueta de transición sobre el separador de la leyenda.
+  - **Resaltado de sintaxis del código en Typst sin paquetes:** un `#show raw: it => ...` puede tokenizar el texto y devolver `text()` por token. Los espacios deben emitirse como `U+00A0` (Typst colapsa los ordinarios y rompería la indentación); concatenar con `array.join(linebreak())` conserva las líneas. La prioridad se resuelve comparando `m.start` (`str.match` devuelve `start`, `end`, `text`) y, en empate, por el orden de las reglas; así el comentario (`--...`) gana al resto de la línea. Para unir tokens sin espacios espurios basta con concatenar elementos en línea (Typst no inserta separación entre ellos).
+  - **Diagramas de estados:** una auto-transición legible es una parábola simétrica respecto de la vertical del centro del círculo (`curve.cubic` con ambos puntos de control a la misma altura), con la punta en el extremo izquierdo y tangente vertical; los extremos se separan `dIn = 8,4 mm` sobre el centro y `w = 5,2 mm` a cada lado, quedando 0,9 mm fuera de la circunferencia de radio 9 mm.
+  - **Trazado de bloques:** una flecha de un bloque hacia otro debe terminar en el borde del bloque destino (coordenada dentro de su rango horizontal); si el destino es una lógica intermedia, hay que mover esa caja bajo la fuente en lugar de dejar la flecha apuntando al vacío, porque el ojo la asocia al bloque más cercano.
 
