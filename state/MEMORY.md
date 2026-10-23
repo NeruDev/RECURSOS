@@ -3,14 +3,14 @@ id: 05_memory
 name: memory
 title: "Memoria Semántica y Lecciones del Sistema Didáctico"
 file_path: state/MEMORY.md
-version: 1.6.0
+version: 1.8.0
 category: memory
-tags: [memory, state, python314, quarto, typst, latex, schemdraw, gotchas, vhdl, git-lfs, timelinejs, csv, excel, xlsx, docx, python-docx, wikimedia, imagenes, fsm, diagramas-vectoriales]
+tags: [memory, state, python314, quarto, typst, latex, schemdraw, gotchas, vhdl, git-lfs, timelinejs, csv, excel, xlsx, docx, python-docx, wikimedia, imagenes, fsm, diagramas-vectoriales, verificacion-fuentes, bibliografia, maquetacion-word]
 description: "Memoria semántica permanente: lecciones aprendidas, compatibilidad de librerías y decisiones de diseño técnico."
 owner: AI Engineering & Architecture Team
 status: active
 created_at: 2026-09-01T21:40:00Z
-updated_at: 2026-10-18T13:57:00Z
+updated_at: 2026-10-23T17:55:00Z
 dependencies: [00_agents_contract, 01_readme, 02_architecture, 03_glossary, 04_buenas_practicas]
 schema_version: 1.0.0
 ---
@@ -81,4 +81,16 @@ Memoria a largo plazo del repositorio para registrar reglas aprendidas, compatib
   - **Resaltado de sintaxis del código en Typst sin paquetes:** un `#show raw: it => ...` puede tokenizar el texto y devolver `text()` por token. Los espacios deben emitirse como `U+00A0` (Typst colapsa los ordinarios y rompería la indentación); concatenar con `array.join(linebreak())` conserva las líneas. La prioridad se resuelve comparando `m.start` (`str.match` devuelve `start`, `end`, `text`) y, en empate, por el orden de las reglas; así el comentario (`--...`) gana al resto de la línea. Para unir tokens sin espacios espurios basta con concatenar elementos en línea (Typst no inserta separación entre ellos).
   - **Diagramas de estados:** una auto-transición legible es una parábola simétrica respecto de la vertical del centro del círculo (`curve.cubic` con ambos puntos de control a la misma altura), con la punta en el extremo izquierdo y tangente vertical; los extremos se separan `dIn = 8,4 mm` sobre el centro y `w = 5,2 mm` a cada lado, quedando 0,9 mm fuera de la circunferencia de radio 9 mm.
   - **Trazado de bloques:** una flecha de un bloque hacia otro debe terminar en el borde del bloque destino (coordenada dentro de su rango horizontal); si el destino es una lógica intermedia, hay que mover esa caja bajo la fuente en lugar de dejar la flecha apuntando al vacío, porque el ojo la asocia al bloque más cercano.
+- **2026-10-23 11:20 - Verificación de fuentes y corrección de «media octava» en material didáctico:**
+  - **Media octava vs punto medio aritmético:** en acústica y normalización la media octava es la banda fraccionaria $f_u=\sqrt{2}f_l$ (600 cents, 6 semitonos templados, $f_c=2^{1/4}f_l$); para $440\ \text{Hz}$ el extremo superior es $622.25\ \text{Hz}$ (Re♯5). El valor $660\ \text{Hz}$ que circula en fuentes de teoría musical es el **punto medio aritmético** $(f_l+f_u)/2$, una quinta justa de relación $3{:}2$ y 7 semitonos, no una media octava. Conviene citarlo solo como interpretación musical y corregirlo en los cuestionarios.
+  - **Frecuencias centrales de banda:** las bandas de octava usan la serie ISO 266 $f_{c,n}=1000\cdot10^{n/10}\ \text{Hz}$; los rótulos 63, 125, 250, 500, 1000, 2000, 4000 y 8000 Hz son **nominales**, con valores exactos 63.10, 125.89, 251.19, 501.19, 1000, 1995.26, 3981.07 y 7943.28 Hz, y extremos $f_l=f_c/\sqrt{2}$, $f_u=\sqrt{2}f_c$.
+  - **Ganancia de antena:** la relación $P_{sal}/P_{ent}$ es la eficiencia de radiación $e_{cd}$, no la ganancia; la ganancia es $G=4\pi U/P_{in}=e_{cd}D$. Varias páginas docentes en español (por ejemplo la de *Telecomunicaciones TICS*) repiten la formulación incorrecta y hay que corregirla al citarlas.
+  - **Sondeo de URL con clientes automatizados:** `fcc.gov` responde 403 a todo el dominio (incluida la portada) y `sciencedirect.com` responde 403 a las páginas de temas; ISO entrega 403 si se omite `Accept-Language`, pero devuelve el título correcto con la cabecera. Un 403 no prueba inexistencia: hay que clasificar el resultado como «no verificable por bloqueo», no como fuente falsa. Un `TCP 443` cerrado tras resolver DNS (caso de `healthyhearing.com`) indica host inaccesible y obliga a buscar una fuente de respaldo verificada.
+  - **Auditoría de un PDF citado:** descargar el archivo y leer la portada con `pypdf` permite corregir autoría y título que la bibliografía original había perdido (por ejemplo «Colegio Robles» era en realidad Lozano, F. G., *Ruidos en los sistemas de comunicaciones*, Instituto Luis Manuel Robles; y el PDF de la Universidad de Zaragoza es el T3 *El ruido en los sistemas digitales* de T. Pollán).
+- **2026-10-23 11:55 - Versión Word con LaTeX literal (`.docx` derivado de Markdown):**
+  - **Cuándo usar LaTeX literal y cuándo OMML:** si el destino es edición interactiva de ecuaciones, conviene OMML; si se pide «las fórmulas en LaTeX», el cuerpo de cada ecuación se emite como corrida monoespaciada (`Consolas` 9 pt) en párrafos con sombreado `F2F2F2`, sin los delimitadores `$` ni `$$`, que son marcas de Markdown.
+  - **Anchos de columna en tablas:** repartir por longitud de celda con tope funciona, pero un solo token no separable (una ruta de URL de 51 caracteres) fuerza mínimos absurdos y estrangula las demás columnas; hay que limitar el mínimo por columna (4.5 cm) y añadir `w:wordWrap w:val="0"` a los párrafos de celda para que Word y LibreOffice partan ese token en lugar de desbordar el margen.
+  - **Filas que se rompen entre páginas:** `python-docx` no expone `allow_break` en `_Row`; el equivalente es insertar `w:cantSplit` en `trPr` y `w:tblHeader` en la primera fila para repetir el encabezado.
+  - **Verificación de fidelidad sin duplicar el parser:** comparar multiconjuntos de palabras (Markdown sin marcas frente al `.docx`) detecta de inmediato texto perdido; conviene no descontar los números de lista ordenada del lado del Markdown, porque el `.docx` los conserva como texto con sangría francesa.
+  - **QA visual sin Word:** `soffice --headless --convert-to pdf` (perfil aislado con `-env:UserInstallation`) y `pymupdf` a 100 ppp permiten revisar maquetación página a página; una segunda instancia de LibreOffice en paralelo devuelve «source file could not be loaded» aunque el PDF anterior sí se haya escrito.
 
