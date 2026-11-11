@@ -3,14 +3,14 @@ id: 05_memory
 name: memory
 title: "Memoria Semántica y Lecciones del Sistema Didáctico"
 file_path: state/MEMORY.md
-version: 1.8.0
+version: 1.9.0
 category: memory
 tags: [memory, state, python314, quarto, typst, latex, schemdraw, gotchas, vhdl, git-lfs, timelinejs, csv, excel, xlsx, docx, python-docx, wikimedia, imagenes, fsm, diagramas-vectoriales, verificacion-fuentes, bibliografia, maquetacion-word]
 description: "Memoria semántica permanente: lecciones aprendidas, compatibilidad de librerías y decisiones de diseño técnico."
 owner: AI Engineering & Architecture Team
 status: active
 created_at: 2026-09-01T21:40:00Z
-updated_at: 2026-10-23T17:55:00Z
+updated_at: 2026-11-11T02:55:00Z
 dependencies: [00_agents_contract, 01_readme, 02_architecture, 03_glossary, 04_buenas_practicas]
 schema_version: 1.0.0
 ---
@@ -93,4 +93,11 @@ Memoria a largo plazo del repositorio para registrar reglas aprendidas, compatib
   - **Filas que se rompen entre páginas:** `python-docx` no expone `allow_break` en `_Row`; el equivalente es insertar `w:cantSplit` en `trPr` y `w:tblHeader` en la primera fila para repetir el encabezado.
   - **Verificación de fidelidad sin duplicar el parser:** comparar multiconjuntos de palabras (Markdown sin marcas frente al `.docx`) detecta de inmediato texto perdido; conviene no descontar los números de lista ordenada del lado del Markdown, porque el `.docx` los conserva como texto con sangría francesa.
   - **QA visual sin Word:** `soffice --headless --convert-to pdf` (perfil aislado con `-env:UserInstallation`) y `pymupdf` a 100 ppp permiten revisar maquetación página a página; una segunda instancia de LibreOffice en paralelo devuelve «source file could not be loaded» aunque el PDF anterior sí se haya escrito.
+- **2026-11-10 20:50 - Formulario compacto de Tema 2 en Typst (tarjeta de 13.97 × 10.8 cm):**
+  - **Escala del formulario compacto:** la tarjeta de 13.97 × 10.8 cm admite dos columnas con cuerpo de 7.1 pt para el temario de líneas de transmisión; a 7.4 pt el contenido salta a una segunda página y a 6.8 pt sobra un cuarto de columna. El formulario del Tema 1 usa tres columnas a 5.3 pt porque desarrolla el doble de relaciones.
+  - **Reparto de columnas con `colbreak()`:** el corte debe caer donde el bloque posterior quepa completo; como los encabezados usan `block(sticky: true)`, una sección que no entra arrastra su título a la página siguiente aunque sobren centímetros en la columna. Compilar a `--format png` con `-{p}` en la ruta de salida revela de inmediato si apareció una segunda página.
+  - **Notas grises que rompen el ajuste:** cada nota de 6.2 pt que envuelve a dos líneas cuesta el margen que después falta en la columna; recortarla a una línea y pasar la condición a la misma línea de la fórmula (`#nota[(cortocircuito $Z_L = 0$)]`) es lo que devuelve el ajuste a una sola cara.
+  - **«λ/4» sin espacios:** dentro de `$...$`, `slash` y el escape `\/` se tratan como operador binario e intercalan espacios; para el cociente literal conviene escribirlo en modo marcado (`*Transformador de λ/4*`) en lugar de matemáticas.
+  - **Ampliación a ocho secciones:** al añadir decibelios/niveles y atenuación en coaxil el formulario pasa de dos a tres columnas con cuerpo de 6.2 pt (a 6.4 pt desborda a una segunda página) y los cortes quedan tras las secciones 3 y 6 (1-3 | 4-6 | 7-8). Los títulos largos dejan de caber en 4.19 cm y se parten en dos líneas, así que conviene titular corto («4. Diseño Geométrico (Serie 2)») y reservar el detalle para las notas.
+  - **Etiquetas y unidades sin cortes ni huérfanas:** envolver los ayudantes en `box()` (`#let u(x) = box(text(...)[\[#x\]]])`, `exacta`, `aprox`) impide que Typst parta `[F/m]` a mitad de token o deje la etiqueta sola al final de la línea; el ajuste se traslada al texto contiguo y las notas conviene redactarlas en dos líneas equilibradas.
 
